@@ -8,7 +8,7 @@ module Grape
         attr_reader :broker
 
         def initialize
-          @broker = ::Redis::Namespace.new("grape-attack:#{env}:thottle", redis: ::Redis.new(url: url))
+          @broker = ::Redis::Namespace.new("grape-attack:#{env}:thottle", redis: client)
         end
 
         def get(key)
@@ -34,6 +34,10 @@ module Grape
         end
 
         private
+
+        def client
+          ::Grape::Attack::Configuration.global.redis || ::Redis.new(url: url)
+        end
 
         def with_custom_exception(&block)
           block.call
