@@ -7,7 +7,7 @@ module Grape
         options
       end
 
-      ::Grape::API.extend self
+      ::Grape::API::Instance.extend self
 
     end
   end
